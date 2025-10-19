@@ -1,9 +1,10 @@
-﻿using System;
-using Spectre.Console;
+﻿using Spectre.Console;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace BudgetTracker
 {
@@ -33,7 +34,7 @@ namespace BudgetTracker
             switch (choice)
             {
                 case "View Transactions":
-                    //TransactionManager.ViewTransactions();
+                    budgetManager.ShowAllTransactions();
                     break;
                 case "Add Transaction":
                     budgetManager.AddTransactionFromInput();
