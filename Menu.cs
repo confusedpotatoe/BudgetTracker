@@ -13,6 +13,9 @@ namespace BudgetTracker
         {
             AnsiConsole.MarkupLine("[bold green underline] Budget Tracker Main Menu [/]");
         }
+
+        private static BudgetManager budgetManager = new BudgetManager();
+
         public static void ShowMainMenu()
         {
             AnsiConsole.Clear();
@@ -33,7 +36,7 @@ namespace BudgetTracker
                     //TransactionManager.ViewTransactions();
                     break;
                 case "Add Transaction":
-                    //TransactionManager.AddTransaction();
+                    budgetManager.AddTransactionFromInput();
                     break;
                 case "Delete Transaction":
                     //TransactionManager.DeleteTransaction();
@@ -45,8 +48,7 @@ namespace BudgetTracker
                     AnsiConsole.MarkupLine("[bold red]Exiting Budget Tracker. Goodbye![/]");
                     return;
             }
-            AnsiConsole.MarkupLine("\nPress any key to return to the main menu...");
-            Console.ReadKey();
+
             ShowMainMenu();
             Console.ReadLine();
 
