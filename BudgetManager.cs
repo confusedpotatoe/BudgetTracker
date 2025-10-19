@@ -69,11 +69,6 @@ namespace BudgetTracker
                     .AddChoices("Food", "Transport", "Bills", "Entertainment")
             );
 
-            if (category == "Other")
-            {
-                category = AnsiConsole.Ask<string>("[grey]Enter custom category:[/]");
-            }
-
             //Create transaction
             Transaction newTransaction = new Transaction()
             {
@@ -113,45 +108,16 @@ namespace BudgetTracker
             TransactionTable.Display(transactions, "All Transactions");
         }
 
+        // Method to display a summary of transactions, such as total income and expenses
         public void SummaryTransactions()
         {
             TransactionTable.DisplaySummary(transactions, "Transaction Summary");
         }
 
-        // Method to filter transactions by category and display them
-        public void ShowTransactionsByCategory()
-        {
-            // Check if there are any transactions
-            if (transactions.Count == 0)
-            {
-                AnsiConsole.MarkupLine("[yellow]No transactions available to filter.[/]");
-                Console.ReadKey();
-                return;
-            }
-
-            // Get distinct categories
-            var categories = transactions
-                .Select(t => t.Category)
-                .Distinct(StringComparer.OrdinalIgnoreCase)
-                .OrderBy(c => c)
-                .ToList();
-
-            // Prompt user to select a category
-            string selectedCategory = AnsiConsole.Prompt(
-                new SelectionPrompt<string>()
-                    .Title("[yellow]Select a category:[/]")
-                    .AddChoices(categories)
-            );
-
-            // Filter transactions by selected category
-            var filtered = transactions
-                .Where(t => t.Category.Equals(selectedCategory, StringComparison.OrdinalIgnoreCase))
-                .ToList();
-
-            TransactionTable.Display(filtered, $"Category: {selectedCategory}");
-        }
+        // Method to delete a transaction from the list
         public void DeleteTransaction()
         {
+            // if there is no transactions, return
             if (transactions.Count == 0)
             {
                 AnsiConsole.MarkupLine("[yellow]No transactions available to delete.[/]");
@@ -159,11 +125,12 @@ namespace BudgetTracker
                 return;
             }
 
-            // Skapa en lista med valbara strängar för SelectionPrompt
+            // creates a list of choices for the user to select from
             var choices = transactions
                 .Select((t, index) => $"{index + 1}. {t.Date.ToShortDateString()} | {t.Description} | {t.Amount:C} | {t.Category}")
                 .ToList();
 
+            // prompt user to select a transaction to delete
             string selected = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
                     .Title("[grey]Select a transaction to delete:[/]")
@@ -178,6 +145,7 @@ namespace BudgetTracker
             var removed = transactions[indexToDelete];
             transactions.RemoveAt(indexToDelete);
 
+            // confirmation message
             AnsiConsole.MarkupLine($"\n[bold red]Transaction '{removed.Description}' deleted![/]");
             Console.ReadKey();
         }

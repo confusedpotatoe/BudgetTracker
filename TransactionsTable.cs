@@ -50,7 +50,7 @@ namespace BudgetTracker
             // Render table
             AnsiConsole.Write(table);
 
-            // Optional: total amount
+            //total amount
             decimal total = transactions.Sum(t => t.Amount);
             string totalText = total >= 0
                 ? $"[green]{total:C}[/]"
@@ -65,12 +65,14 @@ namespace BudgetTracker
             Console.ReadKey();
         }
 
+        // Method to show summary of transactions
         public static void DisplaySummary( List<Transaction> transactions, string Tital = "summary")
         {
 
             Console.Clear();
             AnsiConsole.MarkupLine("[bold cyan] SUMMARY OF TRANSACTIONS [/]\n");
 
+            // Check if there are transactions
             if (transactions == null || transactions.Count == 0)
             {
                 AnsiConsole.MarkupLine("[yellow]No transactions available.[/]");
@@ -78,11 +80,11 @@ namespace BudgetTracker
                 return;
             }
 
-            // Separera inkomster och utgifter
+            // Seperates incomes and expenses
             var incomes = transactions.Where(t => t.Amount >= 0).ToList();
             var expenses = transactions.Where(t => t.Amount < 0).ToList();
 
-            // --- Incomes ---
+            //Incomes table
             AnsiConsole.MarkupLine("[bold green]INCOMES[/]");
             if (incomes.Count == 0)
             {
@@ -110,7 +112,7 @@ namespace BudgetTracker
                 AnsiConsole.MarkupLine($"[bold green]Total Income:[/] [green]{totalIncome:C}[/]\n");
             }
 
-            // --- Expenses ---
+            //Expenses table
             AnsiConsole.MarkupLine("[bold red]EXPENSES[/]");
             if (expenses.Count == 0)
             {
@@ -138,11 +140,12 @@ namespace BudgetTracker
                 AnsiConsole.MarkupLine($"[bold red]Total Expenses:[/] [red]{totalExpenses:C}[/]\n");
             }
 
-            // --- Nettobelopp ---
+            //Last calculation of net total
             decimal net = incomes.Sum(t => t.Amount) + expenses.Sum(t => t.Amount);
             string netText = net >= 0 ? $"[green]{net:C}[/]" : $"[red]{net:C}[/]";
             AnsiConsole.MarkupLine($"[grey]Net Total:[/] {netText}");
 
+            // Wait for user input before returning
             AnsiConsole.MarkupLine("\n[grey]Press any key to return...[/]");
             Console.ReadKey();
         }

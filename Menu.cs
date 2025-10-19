@@ -10,13 +10,16 @@ namespace BudgetTracker
 {
     public class Menu
     {
+        // Display the main menu header
         private static void DisplayMainMenu()
         {
             AnsiConsole.MarkupLine("[bold green underline] Budget Tracker Main Menu [/]");
         }
 
+        // Instance of BudgetManager to handle budget operations
         private static BudgetManager budgetManager = new BudgetManager();
 
+        // Show the main menu and handle user selections
         public static void ShowMainMenu()
         {
             AnsiConsole.Clear();
@@ -34,6 +37,7 @@ namespace BudgetTracker
             
             switch (choice)
             {
+                // Handle each menu option
                 case "View Transactions":
                     budgetManager.ShowAllTransactions();
                     break;
@@ -55,6 +59,7 @@ namespace BudgetTracker
                     return;
             }
 
+            // Return to main menu after completing an action
             ShowMainMenu();
             Console.ReadLine();
 
