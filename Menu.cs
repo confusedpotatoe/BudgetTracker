@@ -9,23 +9,17 @@ namespace BudgetTracker
 {
     public class Menu
     {
-        public static void DisplayMainMenu()
+        private static void DisplayMainMenu()
         {
-            AnsiConsole.Clear();
-            AnsiConsole.MarkupLine("[bold yellow]Welcome to Budget Tracker![/]");
-            AnsiConsole.MarkupLine("[bold green]Please select an option:[/]");
-            AnsiConsole.MarkupLine("1. View Transactions");
-            AnsiConsole.MarkupLine("2. Add Transaction");
-            AnsiConsole.MarkupLine("3. Delete Transaction");
-            AnsiConsole.MarkupLine("4. View Budget Summary");
-            AnsiConsole.MarkupLine("5. Exit");
+            AnsiConsole.MarkupLine("[bold green underline] Budget Tracker Main Menu [/]");
         }
-        public static void ShowMainMenu() {
+        public static void ShowMainMenu()
+        {
             AnsiConsole.Clear();
             DisplayMainMenu();
             var choice = AnsiConsole.Prompt(
                 new SelectionPrompt<string>()
-                    .Title("Select an option:")
+                    .Title("[grey]Select an option:[/]")
                     .AddChoices(new[] {
                         "View Transactions",
                         "Add Transaction",
@@ -34,18 +28,18 @@ namespace BudgetTracker
                         "Exit"
                     }));
             switch (choice)
-                {
+            {
                 case "View Transactions":
-                    TransactionManager.ViewTransactions();
+                    //TransactionManager.ViewTransactions();
                     break;
                 case "Add Transaction":
-                    TransactionManager.AddTransaction();
+                    //TransactionManager.AddTransaction();
                     break;
                 case "Delete Transaction":
-                    TransactionManager.DeleteTransaction();
+                    //TransactionManager.DeleteTransaction();
                     break;
                 case "View Budget Summary":
-                    BudgetSummary.DisplaySummary();
+                    //BudgetSummary.DisplaySummary();
                     break;
                 case "Exit":
                     AnsiConsole.MarkupLine("[bold red]Exiting Budget Tracker. Goodbye![/]");
@@ -58,4 +52,5 @@ namespace BudgetTracker
 
 
         }
+    }
 }
