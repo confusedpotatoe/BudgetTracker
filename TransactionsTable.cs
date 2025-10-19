@@ -1,6 +1,7 @@
 ﻿using Spectre.Console;
 using System;
 using System.Collections.Generic;
+using System.Transactions;
 
 namespace BudgetTracker
 {
@@ -60,6 +61,88 @@ namespace BudgetTracker
             Console.ReadKey();
 
             // Wait for user input before returning
+            AnsiConsole.MarkupLine("\n[grey]Press any key to return...[/]");
+            Console.ReadKey();
+        }
+
+        public static void DisplaySummary( List<Transaction> transactions, string Tital = "summary")
+        {
+
+            Console.Clear();
+            AnsiConsole.MarkupLine("[bold cyan] SUMMARY OF TRANSACTIONS [/]\n");
+
+            if (transactions == null || transactions.Count == 0)
+            {
+                AnsiConsole.MarkupLine("[yellow]No transactions available.[/]");
+                Console.ReadKey();
+                return;
+            }
+
+            // Separera inkomster och utgifter
+            var incomes = transactions.Where(t => t.Amount >= 0).ToList();
+            var expenses = transactions.Where(t => t.Amount < 0).ToList();
+
+            // --- Incomes ---
+            AnsiConsole.MarkupLine("[bold green]INCOMES[/]");
+            if (incomes.Count == 0)
+            {
+                AnsiConsole.MarkupLine("  [grey]No incomes[/]");
+            }
+            else
+            {
+                var incomeTable = new Table();
+                incomeTable.Border = TableBorder.Rounded;
+                incomeTable.AddColumn("Date");
+                incomeTable.AddColumn("Description");
+                incomeTable.AddColumn("Amount");
+
+                foreach (var t in incomes)
+                {
+                    incomeTable.AddRow(
+                        t.Date.ToShortDateString(),
+                        t.Description,
+                        $"[green]{t.Amount:C}[/]"
+                    );
+                }
+
+                AnsiConsole.Write(incomeTable);
+                decimal totalIncome = incomes.Sum(t => t.Amount);
+                AnsiConsole.MarkupLine($"[bold green]Total Income:[/] [green]{totalIncome:C}[/]\n");
+            }
+
+            // --- Expenses ---
+            AnsiConsole.MarkupLine("[bold red]EXPENSES[/]");
+            if (expenses.Count == 0)
+            {
+                AnsiConsole.MarkupLine("  [grey]No expenses[/]");
+            }
+            else
+            {
+                var expenseTable = new Table();
+                expenseTable.Border = TableBorder.Rounded;
+                expenseTable.AddColumn("Date");
+                expenseTable.AddColumn("Description");
+                expenseTable.AddColumn("Amount");
+
+                foreach (var t in expenses)
+                {
+                    expenseTable.AddRow(
+                        t.Date.ToShortDateString(),
+                        t.Description,
+                        $"[red]{t.Amount:C}[/]"
+                    );
+                }
+
+                AnsiConsole.Write(expenseTable);
+                decimal totalExpenses = expenses.Sum(t => t.Amount);
+                AnsiConsole.MarkupLine($"[bold red]Total Expenses:[/] [red]{totalExpenses:C}[/]\n");
+            }
+
+            // --- Nettobelopp ---
+            decimal net = incomes.Sum(t => t.Amount) + expenses.Sum(t => t.Amount);
+            string netText = net >= 0 ? $"[green]{net:C}[/]" : $"[red]{net:C}[/]";
+            AnsiConsole.MarkupLine($"[grey]Net Total:[/] {netText}");
+
             AnsiConsole.MarkupLine("\n[grey]Press any key to return...[/]");
             Console.ReadKey();
         }

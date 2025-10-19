@@ -113,6 +113,11 @@ namespace BudgetTracker
             TransactionTable.Display(transactions, "All Transactions");
         }
 
+        public void SummaryTransactions()
+        {
+            TransactionTable.DisplaySummary(transactions, "Transaction Summary");
+        }
+
         // Method to filter transactions by category and display them
         public void ShowTransactionsByCategory()
         {
@@ -176,8 +181,11 @@ namespace BudgetTracker
             AnsiConsole.MarkupLine($"\n[bold red]Transaction '{removed.Description}' deleted![/]");
             Console.ReadKey();
         }
-    }
 
+        
+    }
 }
+
+
 
 
