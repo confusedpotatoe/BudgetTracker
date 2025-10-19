@@ -47,7 +47,7 @@ namespace BudgetTracker
                     break;
 
                 case "View Budget Summary":
-                    //BudgetSummary.DisplaySummary();
+                    budgetManager.SummaryTransactions();
                     break;
 
                 case "Exit":
