@@ -14,6 +14,36 @@ namespace BudgetTracker
     {
         private List<Transaction> transactions = new List<Transaction>();
 
+        // Constructor to initialize with some sample data
+        public BudgetManager()
+        {
+            // Sample transactions
+            transactions.Add(new Transaction
+            {
+                Date = DateTime.Now,
+                Description = "Salary",
+                Amount = 25000m,
+                Category = "Income"
+            });
+
+            // Sample expenses
+            transactions.Add(new Transaction
+            {
+                Date = DateTime.Now,
+                Description = "Rent",
+                Amount = -8000m,
+                Category = "Bills"
+            });
+
+            // Sample expenses
+            transactions.Add(new Transaction
+            {
+                Date = DateTime.Now,
+                Description = "Travel card",
+                Amount = -890m,
+                Category = "Bills"
+            });
+        }
         // Method to add a new transaction based on user input
         public void AddTransactionFromInput()
         {
@@ -53,7 +83,7 @@ namespace BudgetTracker
                 Category = category
             };
 
-            // 🔹 Add to list
+            //Add to list
             transactions.Add(newTransaction);
 
             //Confirmation message
@@ -76,6 +106,46 @@ namespace BudgetTracker
             AnsiConsole.MarkupLine("\n[grey]Press any key to return to the menu...[/]");
             Console.ReadKey();
         }
+
+        // Method to get all transactions in the list, put in a table for viewing
+        public void ShowAllTransactions()
+        {
+            TransactionTable.Display(transactions, "All Transactions");
+        }
+
+        // Method to filter transactions by category and display them
+        public void ShowTransactionsByCategory()
+        {
+            // Check if there are any transactions
+            if (transactions.Count == 0)
+            {
+                AnsiConsole.MarkupLine("[yellow]No transactions available to filter.[/]");
+                Console.ReadKey();
+                return;
+            }
+
+            // Get distinct categories
+            var categories = transactions
+                .Select(t => t.Category)
+                .Distinct(StringComparer.OrdinalIgnoreCase)
+                .OrderBy(c => c)
+                .ToList();
+
+            // Prompt user to select a category
+            string selectedCategory = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[yellow]Select a category:[/]")
+                    .AddChoices(categories)
+            );
+
+            // Filter transactions by selected category
+            var filtered = transactions
+                .Where(t => t.Category.Equals(selectedCategory, StringComparison.OrdinalIgnoreCase))
+                .ToList();
+
+            TransactionTable.Display(filtered, $"Category: {selectedCategory}");
+        }
+
     }
 }
 
