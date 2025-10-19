@@ -145,7 +145,39 @@ namespace BudgetTracker
 
             TransactionTable.Display(filtered, $"Category: {selectedCategory}");
         }
+        public void DeleteTransaction()
+        {
+            if (transactions.Count == 0)
+            {
+                AnsiConsole.MarkupLine("[yellow]No transactions available to delete.[/]");
+                Console.ReadKey();
+                return;
+            }
 
+            // Skapa en lista med valbara strängar för SelectionPrompt
+            var choices = transactions
+                .Select((t, index) => $"{index + 1}. {t.Date.ToShortDateString()} | {t.Description} | {t.Amount:C} | {t.Category}")
+                .ToList();
+
+            string selected = AnsiConsole.Prompt(
+                new SelectionPrompt<string>()
+                    .Title("[grey]Select a transaction to delete:[/]")
+                    .PageSize(10)
+                    .AddChoices(choices)
+            );
+
+            // find index of choice
+            int indexToDelete = int.Parse(selected.Split('.')[0]) - 1;
+
+            // remove the transaction
+            var removed = transactions[indexToDelete];
+            transactions.RemoveAt(indexToDelete);
+
+            AnsiConsole.MarkupLine($"\n[bold red]Transaction '{removed.Description}' deleted![/]");
+            Console.ReadKey();
+        }
     }
+
 }
+
 
