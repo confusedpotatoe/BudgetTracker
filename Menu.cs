@@ -31,20 +31,25 @@ namespace BudgetTracker
                         "View Budget Summary",
                         "Exit"
                     }));
+            
             switch (choice)
             {
                 case "View Transactions":
                     budgetManager.ShowAllTransactions();
                     break;
+
                 case "Add Transaction":
                     budgetManager.AddTransactionFromInput();
                     break;
+
                 case "Delete Transaction":
-                    //TransactionManager.DeleteTransaction();
+                    budgetManager.DeleteTransaction();
                     break;
+
                 case "View Budget Summary":
                     //BudgetSummary.DisplaySummary();
                     break;
+
                 case "Exit":
                     AnsiConsole.MarkupLine("[bold red]Exiting Budget Tracker. Goodbye![/]");
                     return;
