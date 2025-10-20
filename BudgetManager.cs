@@ -47,8 +47,6 @@ namespace BudgetTracker
         // Method to add a new transaction based on user input
         public void AddTransactionFromInput()
         {
-            BudgetManager budgetManager = new BudgetManager();
-
             Console.Clear();
             AnsiConsole.MarkupLine("[bold green] ADD NEW TRANSACTION [/]");
 

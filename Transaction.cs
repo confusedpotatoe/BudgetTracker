@@ -39,12 +39,5 @@ namespace BudgetTracker
         public Transaction()
         {
         }
-
-        // Method to display the transaction details.
-        public void Display()
-        {
-            Console.WriteLine($"{Date.ToShortDateString()} | {Description} | {Amount:C} | {Category}");
-        }
-
     }
 }
