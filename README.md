@@ -20,4 +20,5 @@ when run by VS use
 
 ------------------------------------------------------------------------------------------------
 
+simple flowchart of the functions
 <img width="791" height="531" alt="image" src="https://github.com/user-attachments/assets/a71bc8c4-4c20-4cfd-98d9-4da26c8bed9f" />
