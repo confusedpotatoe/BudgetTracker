@@ -47,10 +47,10 @@ namespace BudgetTracker
                 );
             }
 
-            // Render table
+            // Render table to console 
             AnsiConsole.Write(table);
 
-            //total amount
+            //total amount calculation
             decimal total = transactions.Sum(t => t.Amount);
             string totalText = total >= 0
                 ? $"[green]{total:C}[/]"
@@ -135,6 +135,7 @@ namespace BudgetTracker
                     );
                 }
 
+                // Render expense table
                 AnsiConsole.Write(expenseTable);
                 decimal totalExpenses = expenses.Sum(t => t.Amount);
                 AnsiConsole.MarkupLine($"[bold red]Total Expenses:[/] [red]{totalExpenses:C}[/]\n");
